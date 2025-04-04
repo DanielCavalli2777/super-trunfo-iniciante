@@ -1,0 +1,104 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+// Estrutura para armazenar informações da cidade
+struct Cidade {
+    char codigo[4];
+    char nome[50];
+    int populacao;
+    float area;
+    float pib;
+    int pontos_turisticos;
+};
+
+// Função para comparar atributos
+int comparar(struct Cidade c1, struct Cidade c2, int atributo) {
+    switch (atributo) {
+        case 1:
+            return c1.populacao > c2.populacao;
+        case 2:
+            return c1.area > c2.area;
+        case 3:
+            return c1.pib > c2.pib;
+        case 4:
+            return c1.pontos_turisticos > c2.pontos_turisticos;
+        default:
+            return 0;
+    }
+}
+
+int main() {
+    // Inicializa o gerador de números aleatórios
+    srand(time(NULL));
+
+    // Criando um array de estruturas Cidade
+    struct Cidade cidades[] = {
+        {"A01", "São Paulo", 12325000, 1521.11, 699.28, 50},
+        {"A02", "Campinas", 1223237, 795.697, 46.68, 35},
+        {"A03", "Sumaré", 288245, 153.470, 8.89, 20},
+        {"A04", "Hortolândia", 222186, 62.420, 7.31, 15},
+        {"B01", "Belo Horizonte", 2153600, 331.401, 56.34, 40},
+        {"B02", "Uberlândia", 759000, 4168.8, 22.45, 25},
+        {"B03", "Juiz de Fora", 540756, 1455.8, 10.12, 30},
+        {"B04", "Montes Claros", 414240, 3569.1, 8.76, 20},
+        {"D01", "Salvador", 2886698, 693.8, 83.43, 55},
+        {"D02", "Feira de Santana", 627477, 1376.56, 17.33, 30},
+        {"D03", "Vitória da Conquista", 338480, 3204.2, 10.54, 25},
+        {"D04", "Camaçari", 293723, 784.658, 9.89, 20},
+        {"E01", "Rio de Janeiro", 6747815, 1200.278, 364.17, 70},
+        {"E02", "Niterói", 513584, 133.9, 21.04, 35},
+        {"E03", "Petrópolis", 305134, 778.4, 12.78, 20},
+        {"E04", "Campos dos Goytacazes", 503424, 4031.0, 15.43, 30},
+        {"F01", "São Luís", 1108975, 831.7, 25.82, 25},
+        {"F02", "Imperatriz", 259053, 1368.988, 9.42, 15},
+        {"F03", "Caxias", 165525, 5182.7, 6.78, 20},
+        {"F04", "Timon", 170456, 1763.8, 5.91, 18},
+        {"G01", "Teresina", 864845, 1391.98, 21.54, 30},
+        {"G02", "Parnaíba", 153322, 435.5, 7.65, 25},
+        {"G03", "Picos", 78377, 535.6, 4.32, 15},
+        {"G04", "Piripiri", 62130, 498.158, 3.14, 10},
+        {"H01", "Manaus", 2193741, 11401.058, 66.58, 50},
+        {"H02", "Parintins", 113168, 4358.1, 5.78, 20},
+        {"H03", "Itacoatiara", 101337, 8608.2, 3.21, 18},
+        {"H04", "Manacapuru", 96828, 7368.32, 2.65, 15}
+    };
+
+    int num_cidades = sizeof(cidades) / sizeof(cidades[0]);
+
+    // Selecionar cartas aleatórias para o jogador e o computador
+    int carta_jogador = rand() % num_cidades;
+    int carta_computador = rand() % num_cidades;
+
+    // Certificar-se de que o jogador e o computador têm cartas diferentes
+    while (carta_jogador == carta_computador) {
+        carta_computador = rand() % num_cidades;
+    }
+
+    int atributo = 1; // Escolha de atributo: 1 (população), 2 (área), 3 (PIB), 4 (pontos turísticos)
+
+    printf("Carta do Jogador:\n");
+    printf("Cidade: %s\n", cidades[carta_jogador].nome);
+    printf("Código da Carta: %s\n", cidades[carta_jogador].codigo);
+    printf("População: %d\n", cidades[carta_jogador].populacao);
+    printf("Área: %.3f km²\n", cidades[carta_jogador].area);
+    printf("PIB: %.2f bilhões de reais\n", cidades[carta_jogador].pib);
+    printf("Número de Pontos Turísticos: %d\n\n", cidades[carta_jogador].pontos_turisticos);
+
+    printf("Carta do Computador:\n");
+    printf("Cidade: %s\n", cidades[carta_computador].nome);
+    printf("Código da Carta: %s\n", cidades[carta_computador].codigo);
+    printf("População: %d\n", cidades[carta_computador].populacao);
+    printf("Área: %.3f km²\n", cidades[carta_computador].area);
+    printf("PIB: %.2f bilhões de reais\n", cidades[carta_computador].pib);
+    printf("Número de Pontos Turísticos: %d\n\n", cidades[carta_computador].pontos_turisticos);
+
+    // Comparando as cartas dos jogadores
+    if (comparar(cidades[carta_jogador], cidades[carta_computador], atributo)) {
+        printf("Jogador vence com a cidade: %s\n", cidades[carta_jogador].nome);
+    } else {
+        printf("Computador vence com a cidade: %s\n", cidades[carta_computador].nome);
+    }
+
+    return 0;
+}
